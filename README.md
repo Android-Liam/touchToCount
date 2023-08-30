@@ -8,6 +8,6 @@ I am developing an app that counts when you touch it. By saving it through SQLit
 3. Because SQLite is used, the counted number is still applied even if you turn the app off and on again.
 
 
-[ Screenshot ]
+[ Screenshot ] <br/>
 ![result_1](./images/result_1.png)
 ![result_2](./images/result_2.png)
