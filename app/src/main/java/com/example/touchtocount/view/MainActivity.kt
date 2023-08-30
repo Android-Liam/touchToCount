@@ -1,6 +1,7 @@
 package com.example.touchtocount.view
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -20,28 +21,29 @@ class MainActivity : AppCompatActivity() {
 
         cntView = findViewById<TextView>(R.id.cntView)
         resetView = findViewById<TextView>(R.id.resetView)
-
         counterViewModel = ViewModelProvider(this).get(CounterViewModel::class.java)
-
         databaseHelper = DatabaseHelper(this)
 
         cntView.setOnClickListener {
+            Log.d("MainActivity", "Click!")
             counterViewModel.incrementCount()
             val newCount = counterViewModel.getCount()
             updateCountText(newCount)
             saveCountToDatabase(newCount)
         }
 
-        updateCountText(counterViewModel.getCount())
-
         resetView.setOnClickListener {
             resetCountText()
         }
+
+        loadCountFromDatabase()
+
     }
 
     private fun resetCountText() {
         counterViewModel.resetCount()
-        updateCountText(counterViewModel.getCount())
+        updateCountText(0)
+        databaseHelper.insertCount(0)
     }
 
     private fun saveCountToDatabase(count: Int) {
@@ -49,8 +51,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateCountText(count: Int) {
+        Log.d("updateCountText", "$count")
         cntView.text = count.toString()
     }
-
+    private fun loadCountFromDatabase() {
+        val countFromDatabase = databaseHelper.getCount()
+        Log.d("MainActivity", "getCount() => $countFromDatabase")
+        updateCountText(countFromDatabase)
+        counterViewModel.loadCount(countFromDatabase)
+    }
 
 }

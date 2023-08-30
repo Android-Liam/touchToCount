@@ -14,8 +14,11 @@ class CounterViewModel: ViewModel() {
         counterModel.count++
     }
 
-    fun resetCount(): Int {
+    fun resetCount() {
         counterModel.count = 0
-        return counterModel.count
+    }
+
+    fun loadCount(cnt: Int) {
+        counterModel.count = cnt
     }
 }
